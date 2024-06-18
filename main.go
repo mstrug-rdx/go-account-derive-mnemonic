@@ -20,7 +20,7 @@ func assert(condition bool, message string) {
 // networkId: 1 - Mainnet, 2 - Stokenet, ...
 // mnemonic: words list space separated
 // passphrase: optional
-// index: index of an account
+// index: index of an account, starting from 0 (multiple accounts can be created for one mnemonic)
 func derive_account_from_mnemonic(networkId uint8, mnemonic string, passphrase string, index uint32) ([]byte, []byte, *radix_engine_toolkit_uniffi.Address) {
 
     seed := bip39.NewSeed(mnemonic, passphrase)
@@ -31,7 +31,7 @@ func derive_account_from_mnemonic(networkId uint8, mnemonic string, passphrase s
     // Radix network ID
     // 525 - Account
     // 1460 - For transaction signing
-    // index
+    // Account index
     path := "m/44'/1022'/" + strconv.Itoa(int(networkId)) + "'/525'/1460'/" + strconv.Itoa(int(index)) + "'"
 
     key, err := slip10.DeriveForPath(path, seed)
